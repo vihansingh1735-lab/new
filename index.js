@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 
 const config = JSON.parse(
-  fs.readFileSync("./config.json", "utf-8")
+  fs.readFileSync("./src/config/config.json", "utf-8")
 );
 
 const client = new Client({
@@ -19,7 +19,7 @@ const client = new Client({
 
 client.commands = new Collection();
 
-const commandsPath = path.join(process.cwd(), "./commands");
+const commandsPath = path.join(process.cwd(), "src/commands");
 for (const folder of fs.readdirSync(commandsPath)) {
  const folderPath = path.join(commandsPath, folder);
  for (const file of fs.readdirSync(folderPath).filter(f => f.endsWith(".js"))) {
