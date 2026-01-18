@@ -5,7 +5,7 @@ import path from "path";
 import fs from "fs";
 
 const config = JSON.parse(
-  fs.readFileSync("./src/config/config.json", "utf-8")
+  fs.readFileSync("./config.json", "utf-8")
 );
 
 const client = new Client({
