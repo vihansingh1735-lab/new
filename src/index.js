@@ -90,4 +90,5 @@ client.on("error", console.error);
 client.on("warn", console.warn);
 client.on("shardError", console.error);
 client.login(process.env.DISCORD_TOKEN)
-  .catch(err => console.error("LOGIN ERROR:", err));
+  .then(() => console.log("🔐 Discord login request sent"))
+  .catch(err => console.error("❌ LOGIN FAILED:", err));
