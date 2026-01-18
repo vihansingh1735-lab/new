@@ -1,15 +1,10 @@
+import "dotenv/config";
+
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import mongoose from "mongoose";
 import fs from "fs";
 import path from "path";
 import http from "http";
-
-/* ===============================
-   CONFIG
-================================ */
-const config = JSON.parse(
-  fs.readFileSync("./src/config/config.json", "utf-8")
-);
 
 /* ===============================
    DISCORD CLIENT
@@ -52,15 +47,14 @@ client.on("interactionCreate", async interaction => {
     await command.execute(interaction, client);
   } catch (err) {
     console.error(err);
-    await interaction.reply({
-      content: "⚠️ Command error.",
-      ephemeral: true
-    });
+    if (!interaction.replied) {
+      await interaction.reply({ content: "⚠️ Command error.", ephemeral: true });
+    }
   }
 });
 
 /* ===============================
-   FAKE WEB SERVER (KEEP-ALIVE)
+   FAKE WEB SERVER
 ================================ */
 const PORT = process.env.PORT || 3000;
 
@@ -70,7 +64,6 @@ http.createServer((req, res) => {
     name: "Olympus Core",
     status: "online",
     uptime: process.uptime(),
-    path: req.url,
     time: new Date().toISOString()
   }, null, 2));
 }).listen(PORT, () => {
@@ -78,16 +71,21 @@ http.createServer((req, res) => {
 });
 
 /* ===============================
-   READY EVENT
+   READY
 ================================ */
 client.once("ready", async () => {
   console.log(`🤖 Logged in as ${client.user.tag}`);
 
-  await mongoose.connect(config.mongoUri);
-  console.log("🍃 MongoDB connected");
+  if (process.env.MONGO_URI) {
+    await mongoose.connect(process.env.MONGO_URI);
+    console.log("🍃 MongoDB connected");
+  }
 });
 
 /* ===============================
-   LOGIN
+   LOGIN (FIXED)
 ================================ */
-client.login(process.env.token);
+console.log("TOKEN FOUND:", !!process.env.DISCORD_TOKEN);
+
+client.login(process.env.DISCORD_TOKEN)
+  .catch(err => console.error("LOGIN ERROR:", err));
