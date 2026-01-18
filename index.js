@@ -19,7 +19,7 @@ const client = new Client({
 
 client.commands = new Collection();
 
-const commandsPath = path.join(process.cwd(), "src/commands");
+const commandsPath = path.join(process.cwd(), "./commands");
 for (const folder of fs.readdirSync(commandsPath)) {
  const folderPath = path.join(commandsPath, folder);
  for (const file of fs.readdirSync(folderPath).filter(f => f.endsWith(".js"))) {
