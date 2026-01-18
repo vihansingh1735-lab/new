@@ -1,9 +1,12 @@
 
 import { Client, GatewayIntentBits, Collection } from "discord.js";
 import mongoose from "mongoose";
-import fs from "fs";
 import path from "path";
-import config from "./config/config.json" assert { type: "json" };
+import fs from "fs";
+
+const config = JSON.parse(
+  fs.readFileSync("./src/config/config.json", "utf-8")
+);
 
 const client = new Client({
  intents: [
