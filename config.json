@@ -1,0 +1,5 @@
+
+{
+ "token": "PUT_TOKEN_HERE",
+ "mongoUri": "PUT_MONGO_URI_HERE"
+}
