@@ -86,6 +86,8 @@ client.once("ready", async () => {
    LOGIN (FIXED)
 ================================ */
 console.log("TOKEN FOUND:", !!process.env.DISCORD_TOKEN);
-
+client.on("error", console.error);
+client.on("warn", console.warn);
+client.on("shardError", console.error);
 client.login(process.env.DISCORD_TOKEN)
   .catch(err => console.error("LOGIN ERROR:", err));
